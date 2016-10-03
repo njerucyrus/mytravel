@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+<style type="text/css">
+    .div-login-form{
+        margin-left: 50px !important;
+        margin-right: 50px !important;
+    }
+</style>
+{% block content %}
+
+
+        <div class="row">
+           <div class="col col-md-3"></div>
+           <div class="jumbotron container">
+            <div class="col-col-md-3"></div>
+            <div class="div-login-form col col-md-6">
+                <p><strong>Enter Your Credentials to login</strong></p>
+
+                {% if message %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+             <div class="col-col-md-3"></div>
+                <form action="" method="post">
+                    {{ form | crispy }}
+                    {% csrf_token %}
+                    <input type="submit" value="login" class="col col-md-12 btn btn-primary btn-raised">
+                </form>
+
+            <div>
+            <span>
+            &nbsp;&nbsp;Don't have account?<a href="{% url 'matatu:register_passager' %}">Create Account</a>
+            </span>
+           </div>
+        </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

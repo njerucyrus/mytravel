@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="row">
+        <div class="col col-md-3"></div>
+        <div class="col col-md-6">
+            <ul class="list-group">
+                <h5 style="color: #008080;"><strong>Welcome to MyTravel Ticket Payment.</strong></h5>
+                <li class="list-group-item">How it works.</li>
+                <li class="list-group-item">Step 1: Enter you phone number in the form below (format : +2547XXX XXX )</li>
+                <li class="list-group-item">Step 2: Click on the mobile checkout button</li>
+                <li class="list-group-item">Step 3: Check your mobile phone and complete the payment by accepting. done!!</li>
+            </ul>
+{#            <h5 style="color: #008080; "><strong>Pay Ticket using Mpesa (Provide your number and click mobile checkout)</strong></h5>#}
+            <div class="img-thumbnail">
+                <img src="{%  static 'images/mpesa.png' %}">
+            </div>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <input type="submit" value="Mobile Checkout" class="btn btn-primary btn-raised">
+            </form>
+        </div>
+    </div>
+{% endblock %}

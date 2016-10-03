@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row">
+        <div class="col col-md-3"></div>
+        <div class="col col-md-6">
+            <form action="" method="post">
+                {{ user_form | crispy }}
+                {{ passager_form | crispy }}
+                {% csrf_token %}
+                <input type="submit" value="Create Account" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+{% endblock %}

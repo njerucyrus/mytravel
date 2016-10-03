@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style type="text/css">
+.form-div{
+    height: 50%;
+}
+</style>
+<div class="row">
+<div class="col col-md-3"></div>
+<div class="form-div col col-md-6" >
+    <form action="" method="post" class="form-horizontal">
+        {{ form | crispy }}
+        {% csrf_token %}
+        <input type="submit" value="Send Parcel" class="btn  btn-success btn-raised">
+    </form>
+
+</div>
+</div>
+
+{% endblock %}

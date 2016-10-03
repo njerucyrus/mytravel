@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table class="table">
+        <th>From</th>
+        <th>To</th>
+        <th>Vehicle</th>
+        <th>Departure Time</th>
+        <th>Fare (Ksh)</th>
+        <th>Seats Available</th>
+        <th>Book Seat Now</th>
+
+        {% for vehicle in vehicles %}
+            <tr>
+                <td>{{ vehicle.route.source }}</td>
+                <td>{{ vehicle.route.destination }}</td>
+                <td>{{ vehicle.plate_no }} &nbsp; {{ vehicle.vehicle_model }}</td>
+                <td>{{ vehicle.departing_time }}</td>
+                <td>{{ vehicle.route.fare }}</td>
+                <td>{{ vehicle.available_capacity }}</td>
+                <td><a href="{% url 'matatu:book_seat' pk=vehicle.pk %} " class="btn btn-success btn-raised">Book Seat</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

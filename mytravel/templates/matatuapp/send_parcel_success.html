@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if messsage %}
+        <div class="alert-success" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" onclick="goBack()" class="close" data-dismiss="alert"
+                    aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+{% endblock %}
