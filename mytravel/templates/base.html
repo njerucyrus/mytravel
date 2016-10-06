@@ -71,7 +71,8 @@
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="{% url 'matatu:my_travel'%}">My Travel</a></li>
                 <li><a href="{% url 'matatu:send_parcel'%}">Parcel</a></li>
-                <li><a href="#">Buses</a></li>
+                <li><a href="{% url 'matatu:vehicles' %}">MyTravel Vehicles</a></li>
+                <li><a href="{% url 'matatu:my_ticket' %}">MyTicket</a></li>
                 {% if user.is_authenticated %}
                 {% else %}
                 <li><a href="{% url  'matatu:register_passager' %}">Create Account</a></li>
@@ -104,7 +105,7 @@
 </div>
 </div>
 <footer class="container-fluid text-center">
-
+MyTravel Copyright &copy;2016
 </footer>
 <!-- Bootstrap Core JavaScript -->
 <script src="{% static 'js/jquery.js' %}"></script>
@@ -117,4 +118,7 @@
         $.material.init();
     });
 </script>
+
+
+
 </body>

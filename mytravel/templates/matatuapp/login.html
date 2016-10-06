@@ -24,13 +24,12 @@
                         </button>
                     </div>
                 {% endif %}
-             <div class="col-col-md-3"></div>
+             <div class="col-col-md-3" style="margin-left: 25px;"></div>
                 <form action="" method="post">
                     {{ form | crispy }}
                     {% csrf_token %}
                     <input type="submit" value="login" class="col col-md-12 btn btn-primary btn-raised">
                 </form>
-
             <div>
             <span>
             &nbsp;&nbsp;Don't have account?<a href="{% url 'matatu:register_passager' %}">Create Account</a>

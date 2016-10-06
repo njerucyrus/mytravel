@@ -9,6 +9,9 @@ urlpatterns = [
     url(r'^select-seat/$', views.select_seat, name='select_seat'),
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^book-seat/(?P<pk>\d+)/$', views.book_seat, name='book_seat'),
+    url(r'^my-booking/$', views.my_ticket, name='my_ticket'),
+    url(r'^my-booking/ticket/(?P<ticket_no>\d+)$', views.passager_ticket, name='ticket_pdf'),
     url(r'^send-parcel/$', views.send_parcel, name='send_parcel'),
     url(r'^send-parcel/success/$', views.send_parcel_success, name='parcel_success'),
+    url(r'^vehicles/$', views.show_vehicles, name='vehicles'),
 ]

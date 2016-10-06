@@ -33,7 +33,7 @@ admin.site.register(Routes, RoutesAdmin)
 
 
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ['route', 'plate_no', 'capacity', 'vehicle_model', 'vehicle_category', 'is_online', 'is_departed', 'departing_time']
+    list_display = ['route', 'plate_no', 'capacity', 'vehicle_model', 'vehicle_category', 'is_online', 'is_departed', 'departing_time', 'image']
 
     class Meta:
         model = Vehicle
@@ -53,7 +53,7 @@ admin.site.register(Payment, PaymentAdmin)
 
 
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ['passager', 'vehicle', 'source', 'destination', 'amount_paid', 'date_booked']
+    list_display = ['ticket_no','passager', 'vehicle', 'source', 'destination', 'amount_paid', 'date_booked']
 
     class Meta:
         model = Booking

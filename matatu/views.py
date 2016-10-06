@@ -3,6 +3,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from matatu.forms import *
 from matatu.models import *
+from django.conf import settings
+from django.template.loader import render_to_string
+import weasyprint
 
 
 def register_passager(request):
@@ -15,7 +18,6 @@ def register_passager(request):
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
             cd = passager_form.cleaned_data
-
             passager = Passager.objects.create(
                 user=new_user,
                 gender=cd['gender'],
@@ -72,13 +74,16 @@ def index(request):
 
 
 def my_travel(request):
-    vehicle = Vehicle.objects.all()
+    vehicle = Vehicle.objects.filter(is_online=True,)
     return render(request, "matatuapp/my_travel.html", {'vehicles': vehicle, })
 
+from random import randint
 @login_required(login_url='/login/')
 def book_seat(request, pk=None):
     vehicle = get_object_or_404(Vehicle, pk=pk, is_online=True)
     initial = {'amount': str(vehicle.route.fare), }
+    # if request.user:
+    #     return HttpResponseRedirect('/book-seat/')
     if request.method == 'POST':
 
         form = SeatPaymentForm(request.POST, initial=initial)
@@ -96,24 +101,48 @@ def book_seat(request, pk=None):
             source = vehicle.route.source
             destination = vehicle.route.destination
             amount_paid = form.cleaned_data['amount']
-
+            range_start = 10**(8-1)
+            range_end = (10**8)-1
+            ticket_no = randint(range_start, range_end)
             booking = Booking.objects.create(
                 passager=passager,
                 vehicle=vehicle,
                 source=source,
                 destination=destination,
-                amount_paid=amount_paid
+                amount_paid=amount_paid,
+                ticket_no=ticket_no
             )
             booking.save()
             vehicle.available_capacity -= 1
             vehicle.save()
-            message = "your booking was completed successfully"
-            return HttpResponse(message)
+            return HttpResponseRedirect('/my-booking/')
             # return render(request, 'booking_successful.html', {'message': message, })
 
     else:
         form = SeatPaymentForm(initial=initial)
     return render(request, 'matatuapp/book_seat.html', {'form': form, })
+
+
+def my_ticket(request):
+    username = request.session.get('username')
+    user = get_object_or_404(User, username=username)
+    passager = get_object_or_404(Passager, user=user)
+    booking = get_object_or_404(Booking, passager=passager)
+    return render(request, 'matatuapp/my_ticket.html', {'booking': booking, })
+
+
+def passager_ticket(request, ticket_no=None):
+    booking = get_object_or_404(Booking, ticket_no=ticket_no)
+    html = render_to_string('matatuapp/ticket-pdf.html', {'booking': booking, })
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=myTravelTicket_{}.pdf'.format(booking.ticket_no)
+    weasyprint.HTML(string=html).write_pdf(response,
+                                           # stylesheets=[weasyprint.CSS(
+                                           #  settings.STATIC_ROOT + '/css/bootstrap.min.css',
+                                           # )]
+                                           )
+    return response
+
 
 @login_required(login_url='/login/')
 def send_parcel(request):
@@ -138,3 +167,8 @@ def send_parcel_success(request):
 # for testing
 def select_seat(request):
     return render(request, 'matatuapp/select_seat.html', {})
+
+
+def show_vehicles(request):
+    vehicles = Vehicle.objects.filter(is_online=True)
+    return render(request, 'matatuapp/vehicles.html', {'vehicles': vehicles, })

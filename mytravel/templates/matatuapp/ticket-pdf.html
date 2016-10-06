@@ -1,0 +1,59 @@
+{% load staticfiles %}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- my local css and bootstrap -->
+    <link href="{% static 'css/bootstrap.min.css' %} " rel="stylesheet">
+    <link href="{% static 'material/css/bootstrap-material-design.css' %}" rel="stylesheet">
+    <link href="{% static 'material/css/ripples.min.css' %}" rel="stylesheet">
+    <style type="text/css">
+        .custom-p {
+            color:white;
+            font-family:"Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+            font-size: 16px;
+            text-align: justify;
+        }
+        .custom-div{
+            margin-left: 150px;
+            margin-right: 150px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="col col-md-6 custom-div">
+        <div class="col-col-sm-12 card card-content" style="padding:25px;">
+
+            <p class="label label-danger"><strong>Ticket No: {{ booking.ticket_no }} Amount {{ booking.amount_paid }} Ksh</strong></p>
+            <div class="thumbnail">
+{#                <img src="http://chart.apis.google.com/chart?cht=qr&chs=300x300&chld=L|0&chl={{ booking.ticket_no}}">#}
+            </div>
+
+            <p>Passager Name: <i>{{ booking.passager.user.first_name }}
+                {{ booking.passager.user.last_name }}</i> Phone Number: {{ booking.passager.phone }}</p>
+            <p class="">Seat No: {{ booking.seat_no  }}</p>
+            <p>Vehicle Model: {{ booking.vehicle.vehicle_model }}</p>
+            <p>Plate No: {{ booking.vehicle.plate_no }}</p>
+            <p>Departure Time: {{ booking.vehicle.departing_time }}</p>
+            <p>Route : {{ booking.vehicle.route }}</p>
+            <p>Date : {{ booking.date_booked }}</p>
+
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %} "></script>
+<!--material js-->
+<script src="{% static 'material/js/material.min.js' %}"></script>
+<script src="{% static 'material/js/ripples.min.js' %}"></script>
+<script>
+    $(function () {
+        $.material.init();
+    });
+</script>
+</html>

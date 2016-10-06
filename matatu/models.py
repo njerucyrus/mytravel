@@ -71,6 +71,7 @@ class Vehicle(models.Model):
     available_capacity = models.PositiveIntegerField(default=0)
     vehicle_model = models.CharField(max_length=30)
     vehicle_category = models.CharField(max_length=20, choices=VEHICLE_CAT)
+    image = models.ImageField(upload_to='vehicles/img/', blank=True, null=True)
     is_online = models.BooleanField(default=False)
     is_departed = models.BooleanField(default=False)
     departing_time = models.CharField(max_length=8, choices=TIME_CHOICES)
@@ -85,6 +86,7 @@ class Booking(models.Model):
     source = models.CharField(max_length=50)
     destination = models.CharField(max_length=50)
     seat_no = models.PositiveIntegerField(default=0)
+    ticket_no = models.CharField(max_length=20, blank=True, null=True)
     amount_paid = models.PositiveIntegerField()
     date_booked = models.DateTimeField(auto_now_add=True)
 

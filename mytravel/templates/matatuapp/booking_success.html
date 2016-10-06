@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col col-md-6">
+<h6>Your Booking was successful</h6>
+<h6>Ticket Information</h6>
+
+Ticket No: {{ booking.ticket_no }}
+<p>Passager Name: {{ booking.passager.user.first_name }}&nbsp;
+    {{ booking.passager.user.last_name }}</p>
+<p>Seat No: {{ booking.seat_no  }}</p>
+<p>Vehicle Model: {{ booking.vehicle_model }}</p>
+<p>Plate No: {{ booking.vehicle.plate_no }}</p>
+<p>Departure Time: {{ booking.vehicle.departing_time }}</p>
+<p>Route : {{ booking.vehicle.route }}</p>
+<p>Date : {{ booking.date_booked }}</p>
+
+</div>
+
+{% endblock %}
