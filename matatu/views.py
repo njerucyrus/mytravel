@@ -2,10 +2,10 @@ from django.shortcuts import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
-
 from matatu.forms import *
 from matatu.models import *
 import weasyprint
+from django.db.models import Q
 
 
 def register_passager(request):
@@ -26,8 +26,9 @@ def register_passager(request):
                 phone=cd['phone']
             )
             passager.save()
-
-            return HttpResponse('Account created successfully')
+            message = "Account created successfully"
+            return render_to_response('matatuapp/register_passager_success.html',
+                                      {'message': message, })
     else:
         user_form = UserRegistrationForm()
         passager_form = PassagerForm()
@@ -36,6 +37,7 @@ def register_passager(request):
 
 def user_login(request):
     user = request.user
+    next = request.GET.get('next', '')
     if user.is_authenticated():
         return HttpResponseRedirect('/')
     if request.method == 'POST':
@@ -47,7 +49,10 @@ def user_login(request):
                 if user.is_active:
                     request.session['username'] = cd['username']
                     login(request, user)
-                    return HttpResponseRedirect('/')
+                    if next == '':
+                        return HttpResponseRedirect('/')
+                    elif next:
+                        return HttpResponseRedirect(next)
             else:
 
                 message = 'Wrong username or password'
@@ -96,9 +101,6 @@ def vehicle_list_by_route(request, pk=None):
 
 
 # search engine
-from django.db.models import Q
-
-
 def search(request):
     query = request.GET.get('q', '')
     if query:
@@ -115,10 +117,6 @@ def search(request):
         'results': results,
         'query': query
     })
-
-
-
-
 
 
 from random import randint
@@ -186,7 +184,7 @@ def passager_ticket(request, ticket_no=None):
                                            # stylesheets=[weasyprint.CSS(
                                            # settings.STATIC_ROOT + '/css/bootstrap.min.css',
                                            # )]
-    )
+                                           )
     return response
 
 

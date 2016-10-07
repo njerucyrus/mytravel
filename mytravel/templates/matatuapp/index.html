@@ -1,6 +1,20 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 
 {%block content %}
+    <div class="row">
+    <div class="col col-md-12" style="margin: 25px;">
+            <ul class="bxslider">
+            <li><img src="{% static 'images/bus1.jpg' %}"></li>
+            <li><img src="{% static 'images/bus2.jpg' %}"></li>
+            <li><img src="{% static 'images/bus3.jpg' %}"></li>
+            <li><img src="{% static 'images/bus4.jpg' %}"></li>
+            <li><img src="{% static 'images/bus5.jpg' %}"></li>
+            <li><img src="{% static 'images/bus6.jpg' %}"></li>
+
+        </ul>
+    </div>
+
+    </div>
 
 {%endblock %}

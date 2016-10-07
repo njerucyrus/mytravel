@@ -28,6 +28,7 @@
                 <form action="" method="post">
                     {{ form | crispy }}
                     {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}" />
                     <input type="submit" value="login" class="col col-md-12 btn btn-primary btn-raised">
                 </form>
             <div>
