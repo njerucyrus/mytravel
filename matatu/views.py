@@ -1,10 +1,10 @@
 from django.shortcuts import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
+
 from matatu.forms import *
 from matatu.models import *
-from django.conf import settings
-from django.template.loader import render_to_string
 import weasyprint
 
 
@@ -57,6 +57,7 @@ def user_login(request):
         form = LoginForm()
     return render(request, 'matatuapp/login.html', {'form': form, })
 
+
 @login_required(login_url='/login/')
 def user_logout(request):
     logout(request)
@@ -74,16 +75,61 @@ def index(request):
 
 
 def my_travel(request):
-    vehicle = Vehicle.objects.filter(is_online=True,)
+    vehicle = Vehicle.objects.filter(is_online=True, )
     return render(request, "matatuapp/my_travel.html", {'vehicles': vehicle, })
 
+
+# this was not fully implemented will implement over the weekend
+def vehicle_list_by_route(request, pk=None):
+    route = None
+    routes = Routes.objects.all()
+    vehicles = Vehicle.objects.all()
+    if pk:
+        route = get_object_or_404(Routes, pk=pk)
+        vehicles = vehicles.filter(route=route)
+    return render(request, 'matatuapp/vehicle_list.html',
+                  {
+                      'route': route,
+                      'routes': routes,
+                      'vehicles': vehicles,
+                  })
+
+
+# search engine
+from django.db.models import Q
+
+
+def search(request):
+    query = request.GET.get('q', '')
+    if query:
+        queryset = (
+            Q(source__icontains=query) |
+            Q(destination__icontains=query) |
+            Q(fare__icontains=query)
+        )
+        route = Routes.objects.filter(queryset).distinct()
+        results = Vehicle.objects.filter(route=route)
+    else:
+        results = []
+    return render_to_response('matatuapp/vehicles.html', {
+        'results': results,
+        'query': query
+    })
+
+
+
+
+
+
 from random import randint
+
+
 @login_required(login_url='/login/')
 def book_seat(request, pk=None):
     vehicle = get_object_or_404(Vehicle, pk=pk, is_online=True)
     initial = {'amount': str(vehicle.route.fare), }
     # if request.user:
-    #     return HttpResponseRedirect('/book-seat/')
+    # return HttpResponseRedirect('/book-seat/')
     if request.method == 'POST':
 
         form = SeatPaymentForm(request.POST, initial=initial)
@@ -101,8 +147,8 @@ def book_seat(request, pk=None):
             source = vehicle.route.source
             destination = vehicle.route.destination
             amount_paid = form.cleaned_data['amount']
-            range_start = 10**(8-1)
-            range_end = (10**8)-1
+            range_start = 10 ** (8 - 1)
+            range_end = (10 ** 8) - 1
             ticket_no = randint(range_start, range_end)
             booking = Booking.objects.create(
                 passager=passager,
@@ -138,9 +184,9 @@ def passager_ticket(request, ticket_no=None):
     response['Content-Disposition'] = 'filename=myTravelTicket_{}.pdf'.format(booking.ticket_no)
     weasyprint.HTML(string=html).write_pdf(response,
                                            # stylesheets=[weasyprint.CSS(
-                                           #  settings.STATIC_ROOT + '/css/bootstrap.min.css',
+                                           # settings.STATIC_ROOT + '/css/bootstrap.min.css',
                                            # )]
-                                           )
+    )
     return response
 
 

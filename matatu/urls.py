@@ -14,4 +14,6 @@ urlpatterns = [
     url(r'^send-parcel/$', views.send_parcel, name='send_parcel'),
     url(r'^send-parcel/success/$', views.send_parcel_success, name='parcel_success'),
     url(r'^vehicles/$', views.show_vehicles, name='vehicles'),
+    url(r'^vehicles/search/$', views.search, name='search'),
+    url(r'^vehicles/(?P<pk>\d+)/$', views.vehicle_list_by_route, name='vehicle_list_by_route'),
 ]

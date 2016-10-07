@@ -1,0 +1,9 @@
+{% extends 'vehicles.html' %}
+
+{% block routes %}
+ {% for r in routes %}
+        <li><a href="{{ r.get_absolute_url }}"> {{ r.source }} To {{ r.destination }}</a></li>
+    {% endfor %}
+
+{% endblock %}
+

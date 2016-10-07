@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+
 
 
 class Driver(models.Model):
@@ -41,6 +43,9 @@ class Routes(models.Model):
 
     class Meta:
         verbose_name_plural = 'Routes'
+
+    def get_absolute_url(self):
+        return reverse("matatu:vehicle_list_by_route", args=[self.pk])
 
     def __unicode__(self):
         return "{0} To {1}".format(self.source, self.destination)
