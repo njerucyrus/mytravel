@@ -3,80 +3,87 @@
 {% block content %}
     <div class="row">
         <div class="col col-md-12">
-               <div class="row">
-               <div class="col-lg-8" style="margin-left: 50px;">
-               <form action="{% url 'matatu:search' %}" method="get">
-               <div class="input-group">
-              <input type="text" name="q" value="{{ query|escape }}" class="form-control" placeholder="Search Here">
+            <div class="row">
+                <div class="col-lg-8" style="margin-left: 50px;">
+                    <form action="{% url 'matatu:search' %}" method="get">
+                        <div class="input-group">
+                            <input type="text" name="q" value="{{ query|escape }}" class="form-control"
+                                   placeholder="Search Here">
               <span class="input-group-btn">
                 <input type="submit" class="btn btn-primary btn-raised" value="Search">
               </span>
-              </div>
-               </form>
-                   </div>
-                        <!-- /input-group -->
-                    </div>
-                    <!-- /.col-lg-6 -->
-                </div><{% comment %}{% endcomment %}!--/.row --->
-
-                <!--- Results for search goes here-->
-                {% if results %}
-                    <h1>Showing results for "{{ query|escape }}"</h1>
-
-                     {% for vehicle in results %}
-                    <div class="col col-sm-3">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                {{ vehicle.vehicle_model }}&nbsp;&nbsp;
-                                ({{ vehicle.route.source }} To {{ vehicle.route.destination }})
-                                &nbsp;&nbsp;
-                                <span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{{ vehicle.departing_time }}
-                            </div>
-                            <div class="panel-body">
-                                <div class="thumbnail">
-                                    <img src="{% if vehicle.image %}{{ vehicle.image.url }} {% else %}{% endif %} "
-                                         class="img img-responsive">
-                                </div>
-                            </div>
-                            <div class="panel-footer">
-                                Seats Available: {{ vehicle.available_capacity }}&nbsp;&nbsp;
-                                <p>Fare: {{ vehicle.route.fare }} Ksh
-                                    <a class="btn btn-danger btn-raised" href="{% url 'matatu:book_seat' pk=vehicle.pk %} ">Book Now</a>
-                                </p>
-                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-                {% endif %}
-               <!--End of  Search results-->
-
-                {% for vehicle in vehicles %}
-                    <div class="col col-sm-3">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                {{ vehicle.vehicle_model }}&nbsp;&nbsp;
-                                ({{ vehicle.route.source }} To {{ vehicle.route.destination }})
-                                &nbsp;&nbsp;
-                                <span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{{ vehicle.departing_time }}
-                            </div>
-                            <div class="panel-body">
-                                <div class="thumbnail">
-                                    <img src="{% if vehicle.image %}{{ vehicle.image.url }} {% else %}{% endif %} "
-                                         class="img img-responsive">
-                                </div>
-                            </div>
-                            <div class="panel-footer">
-                                Seats Available: {{ vehicle.available_capacity }}&nbsp;&nbsp;
-                                <p>Fare: {{ vehicle.route.fare }} Ksh
-                                    <a class="btn btn-danger btn-raised" href="{% url 'matatu:book_seat' pk=vehicle.pk %} ">Book Now</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-
-                <!--h6>No Vehicles have been registered to any root yet!</h6-->
-
+                    </form>
+                </div>
+                <!-- /input-group -->
+            </div>
+            <!-- /.col-lg-6 -->
         </div>
+        <{% comment %}{% endcomment %}!--/.row --->
+
+        <!--- Results for search goes here-->
+        {% if results %}
+
+
+            <div><h2 class="label label-primary" style="margin: 15px; ">Showing results for "{{ query|escape }}"</h2>
+            </div>
+            {% for vehicle in results %}
+
+                <div class="col col-sm-3" style="padding-top: 25px;">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            {{ vehicle.vehicle_model }}&nbsp;&nbsp;
+                            ({{ vehicle.route.source }} To {{ vehicle.route.destination }})
+                            &nbsp;&nbsp;
+                            <span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{{ vehicle.departing_time }}
+                        </div>
+                        <div class="panel-body">
+                            <div class="thumbnail">
+                                <img src="{% if vehicle.image %}{{ vehicle.image.url }} {% else %}{% endif %} "
+                                     class="img img-responsive">
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            Seats Available: {{ vehicle.available_capacity }}&nbsp;&nbsp;
+                            <p>Fare: {{ vehicle.route.fare }} Ksh
+                                <a class="btn btn-danger btn-raised" href="{% url 'matatu:book_seat' pk=vehicle.pk %} ">Book
+                                    Now</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <!--End of  Search results-->
+
+        {% for vehicle in vehicles %}
+            <div class="col col-sm-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        {{ vehicle.vehicle_model }}&nbsp;&nbsp;
+                        ({{ vehicle.route.source }} To {{ vehicle.route.destination }})
+                        &nbsp;&nbsp;
+                        <span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{{ vehicle.departing_time }}
+                    </div>
+                    <div class="panel-body">
+                        <div class="thumbnail">
+                            <img src="{% if vehicle.image %}{{ vehicle.image.url }} {% else %}{% endif %} "
+                                 class="img img-responsive">
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        Seats Available: {{ vehicle.available_capacity }}&nbsp;&nbsp;
+                        <p>Fare: {{ vehicle.route.fare }} Ksh
+                            <a class="btn btn-danger btn-raised" href="{% url 'matatu:book_seat' pk=vehicle.pk %} ">Book
+                                Now</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <!--h6>No Vehicles have been registered to any root yet!</h6-->
+
+    </div>
     </div></div>
 {% endblock %}
