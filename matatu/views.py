@@ -37,7 +37,7 @@ def register_passager(request):
 
 def user_login(request):
     user = request.user
-    next = request.GET.get('next', '')
+    next_url = request.GET.get('next', '')
     if user.is_authenticated():
         return HttpResponseRedirect('/')
     if request.method == 'POST':
@@ -49,10 +49,10 @@ def user_login(request):
                 if user.is_active:
                     request.session['username'] = cd['username']
                     login(request, user)
-                    if next == '':
+                    if next_url == '':
                         return HttpResponseRedirect('/')
-                    elif next:
-                        return HttpResponseRedirect(next)
+                    elif next_url:
+                        return HttpResponseRedirect(next_url)
             else:
 
                 message = 'Wrong username or password'

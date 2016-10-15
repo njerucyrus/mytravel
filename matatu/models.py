@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 
-
 class Driver(models.Model):
     user = models.OneToOneField(User)
     GENDER = (

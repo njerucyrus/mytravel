@@ -16,6 +16,14 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
 
+# from django.core.urlresolvers import reverse_lazy
+# LOGIN_REDIRECT_URL = reverse_lazy('index')
+# LOGIN_URL = reverse_lazy('login')
+# LOGOUT_URL = reverse_lazy('user_logout')
+
+
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -59,7 +67,7 @@ ROOT_URLCONF = 'mytravel.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(PROJECT_ROOT, 'templates'),],
+        'DIRS': [os.path.join(PROJECT_ROOT, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

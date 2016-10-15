@@ -22,7 +22,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('matatu.urls', namespace='matatu')),
     url(r'^', include('api.urls', namespace='payment-api')),
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header = "MyTravel Admin-Site"
