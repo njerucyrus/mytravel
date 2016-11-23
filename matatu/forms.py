@@ -1,4 +1,3 @@
-from matatu.models import *
 from django import forms
 from matatu.models import *
 
