@@ -153,7 +153,7 @@ def book_seat(request, pk=None):
             ticket_no = randint(range_start, range_end)
             try:
                 float_amt = float(amount_paid)
-                debug = settings.DEBUG
+                debug = settings.PRODUCTION
                 currencyCode = settings.CURRENCY_CODE
                 metadata = settings.METADATA
 

@@ -32,7 +32,7 @@ PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
 SECRET_KEY = '+rg*&g)$dk(mq)#lt&8m_n4=l8zy5wyv-z(8&#r94*b_%l!*l0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
     'matatu',
     'api',
     'rest_framework',
@@ -170,7 +171,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 API_KEY = 'f01d41160c4168aeba896eb541737b7c3d89497278d9808855dd76e2487b634c'
 AT_USERNAME = 'njerucyrus123'
 PRODUCT_NAME = 'Mytravel'
-if not DATABASES:
+PRODUCTION = True
+if not PRODUCTION:
     API_KEY = os.environ['API_KEY']
     AT_USERNAME = os.environ['AT_USERNAME']
     PRODUCT_Name = 'Hudutech'
