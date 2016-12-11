@@ -6,17 +6,8 @@ from matatu.forms import *
 from matatu.models import *
 import weasyprint
 from django.db.models import Q
-import json
-
+from django.conf import settings
 from matatu.AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
-from mytravel.settings import (
-    apiKey,
-    at_username,
-    productName,
-    currencyCode,
-    metadata,
-
-)
 
 def register_passager(request):
     if request.method == 'POST':
@@ -162,7 +153,22 @@ def book_seat(request, pk=None):
             ticket_no = randint(range_start, range_end)
             try:
                 float_amt = float(amount_paid)
-                gateway = AfricasTalkingGateway(at_username, apiKey)
+                debug = settings.DEBUG
+                currencyCode = settings.CURRENCY_CODE
+                metadata = settings.METADATA
+
+                if debug:
+                    username = str(settings.AT_USERNAME)
+                    apiKey = str(settings.API_KEY)
+                    productName = settings.PRODUCT_NAME
+                    gateway = AfricasTalkingGateway(username, apiKey, "sandbox")
+
+                else:
+                    username = settings.AT_USERNAME
+                    apiKey = settings.API_KEY
+                    gateway = AfricasTalkingGateway(username, apiKey)
+                    productName = settings.PRODUCT_NAME
+
                 transactionId = gateway.initiateMobilePaymentCheckout(
                     productName,
                     phoneNumber,

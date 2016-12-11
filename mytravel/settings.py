@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,7 +32,7 @@ PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
 SECRET_KEY = '+rg*&g)$dk(mq)#lt&8m_n4=l8zy5wyv-z(8&#r94*b_%l!*l0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -127,28 +128,53 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Update database configuration with $DATABASE_URL.
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Allow all host headers
+ALLOWED_HOSTS = ['*']
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media/')
+STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static_root')
 
-STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static_files'),
 )
 
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.10/howto/static-files/
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media/')
+
+
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 
-#apiKey = 'f01d41160c4168aeba896eb541737b7c3d89497278d9808855dd76e2487b634c'
-apiKey = '0cbe2118135e274e2be06e49c21839b689ba93ae4711aa84334f82452913b493'
-at_username = 'njerucyrus'
-productName = 'Hudutech'
-currencyCode = 'KES'
+API_KEY = 'f01d41160c4168aeba896eb541737b7c3d89497278d9808855dd76e2487b634c'
+AT_USERNAME = 'njerucyrus123'
+PRODUCT_NAME = 'Mytravel'
+if not DATABASES:
+    API_KEY = os.environ['API_KEY']
+    AT_USERNAME = os.environ['AT_USERNAME']
+    PRODUCT_Name = 'Hudutech'
+CURRENCY_CODE = 'KES'
 
-metadata = {"agentId": "654", "productId": "321"}
+
+METADATA = {"agentId": "654", "productId": "321"}
