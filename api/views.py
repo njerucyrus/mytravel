@@ -2,8 +2,8 @@ from django.shortcuts import *
 from matatu.models import *
 from api.forms import PayParcelFeeForm
 import random
-
-
+from django.views.decorators.csrf import csrf_exempt
+import json
 def pay_fare(request):
     if request.method == 'POST':
         return
@@ -45,8 +45,40 @@ m-pesa api and updates the status of the payments
 
 """
 
+@csrf_exempt
+def get_mpesa_ipn(request):
+    if request.method == 'POST':
+        payment_data = json.loads(request.body)
+        transactionId = payment_data['transactionId']
+        status = payment_data['status']
+        provider = payment_data['provider']
+        payment = get_object_or_404(Payment, transaction_id=transactionId)
+        booking = get_object_or_404(Booking, transaction_id=transactionId)
+        if status == 'Success':
+            # payment was completed successfully now we process the booking
+            # we first update our local database to show transaction is complete
 
-def payment_notification(request):
-    return None
+            payment.status = status
+            payment.payment_mode = provider
+            booking.status = status
+
+            payment.save()
+            booking.save()
+            message = "booking created successfully"
+
+            return HttpResponse(json.dumps(message), content_type='application/json')
+        else:
+            booking.delete()
+            payment.delete()
+            message = "booking Failed"
+
+            return HttpResponse(json.dumps(message), content_type='application/json')
+
+    else:
+        message = "No data received yet"
+    return HttpResponse(json.dumps(message), content_type='application/json')
+
+
+
 
 

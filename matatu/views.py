@@ -6,7 +6,17 @@ from matatu.forms import *
 from matatu.models import *
 import weasyprint
 from django.db.models import Q
+import json
 
+from matatu.AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
+from mytravel.settings import (
+    apiKey,
+    at_username,
+    productName,
+    currencyCode,
+    metadata,
+
+)
 
 def register_passager(request):
     if request.method == 'POST':
@@ -126,16 +136,17 @@ from random import randint
 def book_seat(request, pk=None):
     vehicle = get_object_or_404(Vehicle, pk=pk, is_online=True)
     initial = {'amount': str(vehicle.route.fare), }
-    # if request.user:
-    # return HttpResponseRedirect('/book-seat/')
     if request.method == 'POST':
 
         form = SeatPaymentForm(request.POST, initial=initial)
 
         if form.is_valid():
             # create booking model instance and save it
+
+            #create a booking session for  the values
+
             username = request.session.get('username', '')
-            print username
+
             user = get_object_or_404(User, username=username)
             passager = get_object_or_404(
                 Passager,
@@ -145,22 +156,62 @@ def book_seat(request, pk=None):
             source = vehicle.route.source
             destination = vehicle.route.destination
             amount_paid = form.cleaned_data['amount']
+            phoneNumber = form.cleaned_data['phoneNumber']
             range_start = 10 ** (8 - 1)
             range_end = (10 ** 8) - 1
             ticket_no = randint(range_start, range_end)
-            booking = Booking.objects.create(
-                passager=passager,
-                vehicle=vehicle,
-                source=source,
-                destination=destination,
-                amount_paid=amount_paid,
-                ticket_no=ticket_no
-            )
-            booking.save()
-            vehicle.available_capacity -= 1
-            vehicle.save()
-            return HttpResponseRedirect('/my-booking/')
-            # return render(request, 'booking_successful.html', {'message': message, })
+            try:
+                float_amt = float(amount_paid)
+                gateway = AfricasTalkingGateway(at_username, apiKey)
+                transactionId = gateway.initiateMobilePaymentCheckout(
+                    productName,
+                    phoneNumber,
+                    currencyCode,
+                    float_amt,
+                    metadata
+                )
+
+                # create payment object
+
+                payment = Payment.objects.create(
+                    transaction_id=transactionId,
+                    amount=amount_paid,
+                    phone_no=phoneNumber,
+                    payment_for='Fare',
+                    payment_mode='Mpesa',
+                    status='PendingConfirmation'
+                )
+                payment.save()
+
+                #create booking instance
+                booking = Booking.objects.create(
+                    transaction_id=transactionId,
+                    amount_paid=float_amt,
+                    passager=passager,
+                    vehicle=vehicle,
+                    ticket_no=ticket_no,
+                    source=source,
+                    destination=destination,
+
+                )
+                booking.save()
+
+                # booking_data = {'username': username, 'source': source, 'destination': destination,
+                #                 'amount': float_amt, 'ticket_no': ticket_no, 'vehicle_pk': pk,
+                #                 }
+                #
+                # request.session['booking'] = booking_data
+                # #request.session.modified = True
+                # encoded = json.dumps(json.dumps(request.session.get('booking')))
+                # decoded = json.loads(encoded)
+                # print "decoded first ", decoded
+
+                message = "Transaction initiated successfully, please complete the payment on your mobile phone"
+                return render(request, 'matatuapp/payment_success.html', {'message': message, })
+
+            except AfricasTalkingGatewayException, e:
+                print str(e)
+                return HttpResponse('error occured:  {}'.format(str(e)))
 
     else:
         form = SeatPaymentForm(initial=initial)

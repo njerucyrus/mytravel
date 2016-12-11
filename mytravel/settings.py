@@ -143,3 +143,12 @@ STATICFILES_DIRS = (
 )
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+
+#apiKey = 'f01d41160c4168aeba896eb541737b7c3d89497278d9808855dd76e2487b634c'
+apiKey = '0cbe2118135e274e2be06e49c21839b689ba93ae4711aa84334f82452913b493'
+at_username = 'njerucyrus'
+productName = 'Hudutech'
+currencyCode = 'KES'
+
+metadata = {"agentId": "654", "productId": "321"}

@@ -53,7 +53,7 @@ admin.site.register(Payment, PaymentAdmin)
 
 
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ['ticket_no','passager', 'vehicle', 'source', 'destination', 'amount_paid', 'date_booked']
+    list_display = ['transaction_id', 'ticket_no', 'passager', 'vehicle', 'source', 'destination', 'amount_paid', 'status', 'date_booked']
 
     class Meta:
         model = Booking

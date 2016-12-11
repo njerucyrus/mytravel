@@ -85,13 +85,15 @@ class Vehicle(models.Model):
 
 
 class Booking(models.Model):
+    transaction_id = models.CharField(max_length=128,)
     passager = models.ForeignKey(Passager, )
     vehicle = models.ForeignKey(Vehicle, )
     source = models.CharField(max_length=50)
     destination = models.CharField(max_length=50)
     seat_no = models.PositiveIntegerField(default=0)
     ticket_no = models.CharField(max_length=20, blank=True, null=True)
-    amount_paid = models.PositiveIntegerField()
+    amount_paid = models.FloatField()
+    status = models.CharField(max_length=32, default='Pending')
     date_booked = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):

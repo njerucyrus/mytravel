@@ -1,5 +1,5 @@
 from django.conf.urls import url, include
-from . import views
+from matatu import views
 
 urlpatterns = [
     url(r'^register-passager/$', views.register_passager, name='register_passager'),
