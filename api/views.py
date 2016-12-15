@@ -51,22 +51,43 @@ def get_mpesa_ipn(request):
         payment_data = json.loads(request.body)
         transactionId = payment_data['transactionId']
         status = payment_data['status']
+        category = payment_data['category']
+
         provider = payment_data['provider']
         payment = get_object_or_404(Payment, transaction_id=transactionId)
         booking = get_object_or_404(Booking, transaction_id=transactionId)
         if status == 'Success':
-            # payment was completed successfully now we process the booking
-            # we first update our local database to show transaction is complete
+            if category == 'MobileCheckout':
 
-            payment.status = status
-            payment.payment_mode = provider
-            booking.status = status
+                # payment was completed successfully now we process the booking
+                # we first update our local database to show transaction is complete
+                payment.status = status
+                payment.payment_mode = provider
+                booking.status = status
 
-            payment.save()
-            booking.save()
-            message = "booking created successfully"
+                payment.save()
+                booking.save()
+                message = "booking created successfully"
 
-            return HttpResponse(json.dumps(message), content_type='application/json')
+                return HttpResponse(json.dumps(message), content_type='application/json')
+
+            elif category == 'MobileC2B':
+                # create payment
+                phone_number = payment_data['source']
+                provider = payment_data['provider']
+                amount = payment_data['amount']
+                payment = Payment.objects.create(
+                    transaction_id=transactionId,
+                    phone_no=phone_number,
+                    payment_mode=provider,
+                    amount=amount,
+                    status=status
+                )
+                payment.save()
+                message = "booking made successfully"
+
+                return HttpResponse(json.dumps(message), content_type='application/json')
+
         else:
             booking.delete()
             payment.delete()
