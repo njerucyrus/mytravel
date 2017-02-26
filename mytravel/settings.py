@@ -34,7 +34,7 @@ SECRET_KEY = '+rg*&g)$dk(mq)#lt&8m_n4=l8zy5wyv-z(8&#r94*b_%l!*l0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -137,7 +137,7 @@ DATABASES['default'].update(db_from_env)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
 
 
 # Static files (CSS, JavaScript, Images)
@@ -180,3 +180,5 @@ CURRENCY_CODE = 'KES'
 
 
 METADATA = {"agentId": "654", "productId": "321"}
+
+
