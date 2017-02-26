@@ -9,6 +9,7 @@ from django.db.models import Q
 from django.conf import settings
 from matatu.AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
 
+
 def register_passager(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -201,17 +202,6 @@ def book_seat(request, pk=None):
 
                 )
                 booking.save()
-
-                # booking_data = {'username': username, 'source': source, 'destination': destination,
-                #                 'amount': float_amt, 'ticket_no': ticket_no, 'vehicle_pk': pk,
-                #                 }
-                #
-                # request.session['booking'] = booking_data
-                # #request.session.modified = True
-                # encoded = json.dumps(json.dumps(request.session.get('booking')))
-                # decoded = json.loads(encoded)
-                # print "decoded first ", decoded
-
                 message = "Transaction initiated successfully, please complete the payment on your mobile phone"
                 return render(request, 'matatuapp/payment_success.html', {'message': message, })
 

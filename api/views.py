@@ -4,6 +4,8 @@ from api.forms import PayParcelFeeForm
 import random
 from django.views.decorators.csrf import csrf_exempt
 import json
+
+
 def pay_fare(request):
     if request.method == 'POST':
         return
@@ -44,6 +46,7 @@ this method listens for payment notification from
 m-pesa api and updates the status of the payments
 
 """
+
 
 @csrf_exempt
 def get_mpesa_ipn(request):
