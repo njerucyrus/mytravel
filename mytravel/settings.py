@@ -174,6 +174,7 @@ if PRODUCTION:
     AT_USERNAME = os.environ['AT_USERNAME']
     PRODUCT_Name = 'Hudutech'
     METADATA = {"agentId": "654", "productId": "321"}
+    CURRENCY_CODE = 'KES'
 else:
 
     API_KEY = 'f01d41160c4168aeba896eb541737b7c3d89497278d9808855dd76e2487b634c'
