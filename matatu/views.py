@@ -158,7 +158,7 @@ def book_seat(request, pk=None):
                 currencyCode = settings.CURRENCY_CODE
                 metadata = settings.METADATA
 
-                if debug:
+                if not debug:
                     username = str(settings.AT_USERNAME)
                     apiKey = str(settings.API_KEY)
                     productName = settings.PRODUCT_NAME
