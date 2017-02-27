@@ -172,7 +172,7 @@ PRODUCTION = True
 if PRODUCTION:
     API_KEY = os.environ['API_KEY']
     AT_USERNAME = os.environ['AT_USERNAME']
-    PRODUCT_Name = 'Hudutech'
+    PRODUCT_NAME = 'Hudutech'
     METADATA = {"agentId": "654", "productId": "321"}
     CURRENCY_CODE = 'KES'
 else:
