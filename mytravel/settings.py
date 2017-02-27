@@ -173,8 +173,21 @@ if PRODUCTION:
     API_KEY = 'f38227587e797f9c9d9ffbc6517e6bf77b0e20d752644ab8da9564e42267dc26'
     AT_USERNAME = 'njerucyrus'
     PRODUCT_NAME = 'Hudutech'
-    METADATA = {"agentId": "654", "productId": "321"}
+    METADATA = {}
     CURRENCY_CODE = 'KES'
+
+    AWS_QUERYSTRING_AUTH = True
+
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+
+    MEDIA_URL = 'http://%s.s3.amazonaws.com/media_root/' % AWS_STORAGE_BUCKET_NAME
+
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
+
 else:
 
     API_KEY = 'f01d41160c4168aeba896eb541737b7c3d89497278d9808855dd76e2487b634c'

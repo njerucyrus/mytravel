@@ -101,8 +101,3 @@ def get_mpesa_ipn(request):
     else:
         message = "No data received yet"
     return HttpResponse(json.dumps(message), content_type='application/json')
-
-
-
-
-
