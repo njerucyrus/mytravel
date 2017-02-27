@@ -170,8 +170,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 PRODUCTION = True
 if PRODUCTION:
-    API_KEY = os.environ['API_KEY']
-    AT_USERNAME = os.environ['AT_USERNAME']
+    API_KEY = 'f38227587e797f9c9d9ffbc6517e6bf77b0e20d752644ab8da9564e42267dc26'
+    AT_USERNAME = 'njerucyrus'
     PRODUCT_NAME = 'Hudutech'
     METADATA = {"agentId": "654", "productId": "321"}
     CURRENCY_CODE = 'KES'
