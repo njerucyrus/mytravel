@@ -3,6 +3,7 @@
 {% block content %}
     <div class="row">
         <div class="col col-md-6">
+
             {% if booking %}
 
             <h6>Ticket Information</h6>
@@ -27,7 +28,9 @@
                     Now</a>
             </div>
            {% else %}
-            <h6>NO booking information found!</h6>
+            <div class="alert alert-info">
+            <h6>{{ message }}</h6>
+             </div>
            {% endif %}
         </div>
     </div>

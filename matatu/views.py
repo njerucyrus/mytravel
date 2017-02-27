@@ -218,8 +218,13 @@ def my_ticket(request):
     username = request.session.get('username')
     user = get_object_or_404(User, username=username)
     passager = get_object_or_404(Passager, user=user)
-    booking = get_object_or_404(Booking, passager=passager)
-    return render(request, 'matatuapp/my_ticket.html', {'booking': booking, })
+    try:
+        booking = Booking.objects.get(passager=passager)
+        return render(request, 'matatuapp/my_ticket.html', {'booking': booking, })
+    except Booking.DoesNotExist:
+        message = 'You have not made any booking Please book a seat to get a ticket'
+        return render(request, 'matatuapp/my_ticket.html', {'message': message} )
+
 
 
 def passager_ticket(request, ticket_no=None):

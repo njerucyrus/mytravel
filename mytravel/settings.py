@@ -168,17 +168,18 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media/')
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 
-API_KEY = 'f01d41160c4168aeba896eb541737b7c3d89497278d9808855dd76e2487b634c'
-AT_USERNAME = 'njerucyrus123'
-PRODUCT_NAME = 'Mytravel'
-PRODUCTION = False
+PRODUCTION = True
 if PRODUCTION:
     API_KEY = os.environ['API_KEY']
     AT_USERNAME = os.environ['AT_USERNAME']
     PRODUCT_Name = 'Hudutech'
-CURRENCY_CODE = 'KES'
+    METADATA = {"agentId": "654", "productId": "321"}
+else:
 
-
-METADATA = {"agentId": "654", "productId": "321"}
+    API_KEY = 'f01d41160c4168aeba896eb541737b7c3d89497278d9808855dd76e2487b634c'
+    AT_USERNAME = 'njerucyrus123'
+    PRODUCT_NAME = 'Mytravel'
+    CURRENCY_CODE = 'KES'
+    METADATA = {"agentId": "654", "productId": "321"}
 
 
